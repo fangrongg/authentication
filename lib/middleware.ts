@@ -37,15 +37,36 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const protectedPath = ['/protected'];
+
+  // check if current path = to any protected patehs
+  const isProtectedPath = protectedPath.some(path => request.nextUrl.pathname.startsWith(path));
+
+
   if (
     !user &&
+    isProtectedPath &&
     !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
+    !request.nextUrl.pathname.startsWith('/auth')  && 
+    !request.nextUrl.pathname.startsWith('/auth/callback')
   ) {
-    // no user, potentially respond by redirecting the user to the login page
+
     const url = request.nextUrl.clone()
     url.pathname = '/auth/login'
     return NextResponse.redirect(url)
+  }
+
+    // cehck if user is logged in. if logged in, they cant access login and signup page and will redirect
+  if (
+    user 
+    && (request.nextUrl.pathname.startsWith('/auth/login') 
+    || request.nextUrl.pathname.startsWith('/auth/sign-up') 
+    // || request.nextUrl.pathname.startsWith('/')
+
+  )) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/protected'; 
+    return NextResponse.redirect(url);
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

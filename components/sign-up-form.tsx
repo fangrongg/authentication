@@ -15,6 +15,19 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import {z} from 'zod'
+
+const passwordSchema = z.string()
+.min(8, {
+  message: "Password must be at least 8 characters long.",
+})
+.regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/, {
+  message: "Password must contain both letters and numbers only.",
+});
+
+const emailSchema = z.string().email({
+  message: "Please enter a valid email address.",
+});
 
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -29,6 +42,28 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
     const supabase = createClient()
     setIsLoading(true)
     setError(null)
+
+    
+    //safeParse validates data without throwing an error if validation fails,, the message?
+    const passwordValidationResult = passwordSchema.safeParse(password);
+
+    if (!passwordValidationResult.success) { //if validation != success
+      //set error message from the validation result
+      setError(passwordValidationResult.error.errors[0].message);
+      setIsLoading(false);
+      return;
+    }
+
+        const emailValidationResult = emailSchema.safeParse(email);
+    if (!emailValidationResult.success) {
+      setError(emailValidationResult.error.issues[0].message);
+      setIsLoading(false);
+      return; 
+    }
+
+
+//
+
 
     if (password !== repeatPassword) {
       setError('Passwords do not match')

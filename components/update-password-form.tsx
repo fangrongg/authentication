@@ -14,6 +14,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { z } from 'zod'
+
+const passwordSchema = z.string()
+.min(8, {
+  message: "Password must be at least 8 characters long.",
+})
+.regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/, {
+  message: "Password must contain both letters and numbers only.",
+});
+
+
 
 export function UpdatePasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [password, setPassword] = useState('')
@@ -26,6 +37,16 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
     const supabase = createClient()
     setIsLoading(true)
     setError(null)
+
+
+    const passwordValidationResult = passwordSchema.safeParse(password);
+
+    if (!passwordValidationResult.success) { //if validation != success
+      //set error message from the validation result
+      setError(passwordValidationResult.error.errors[0].message);
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const { error } = await supabase.auth.updateUser({ password })
