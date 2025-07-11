@@ -10,40 +10,12 @@ import Link from 'next/link'
 export default async function ProtectedPage() {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/auth/login')
-  }
+    const { data, error } = await supabase.auth.getUser()
+      if (error || !data?.user) {
+          redirect('/auth/login')
+            }
 
   return (
-  //   <div className="flex h-svh w-full items-center justify-center gap-2 p-6">
-
-  //     <div>
-  //       <Image
-  //         src="/thumbs-up-icon.jpg"
-  //         alt="Logo"
-  //         width={250}
-  //         height={250}
-  //       />
-  //     </div>
-
-  //     <p>
-  //       successfully logged in as <span className='text-purple-600'>{data.user.email}</span>
-  //     </p>
-
-  //     <div className='gap-2 items-center justify-center'>
-  //     <LogoutButton /> 
-      
-  //     <div className='pt-2'>
-  //     <a href='/auth/update-password'>
-  //       <Button className="bg-purple-500 text-white px-4 py-2 rounded-md">Update/reset password</Button> 
-  //     </a>
-  //     </div>
-  //     </div>
-
-  // </div>
-
-
       <div className="min-h-screen flex flex-col bg-gray-100 text-gray-700">
       {/* Navbar */}
       <nav className="bg-gray-900 text-white p-4 flex flex-wrap justify-between items-center shadow-lg rounded-b-lg">

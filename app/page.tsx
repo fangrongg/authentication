@@ -1,12 +1,39 @@
 
-"use client";
-
-
+'use client';
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { createClient } from '@/lib/client'
+import { useState, useEffect } from 'react';
+import { LogoutButton } from "@/components/logout-button";
 
 export default function Home() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+
+   useEffect(() => {
+  async function checkAuthStatus() {
+
+    const supabase = createClient()
+
+
+    const { data, error } = await supabase.auth.getUser(); 
+    // const isLoggedIn = !!data?.user;
+      if (error || !data?.user) {
+        setIsLoggedIn(false);
+        setUserEmail(null);
+      } else {
+        setIsLoggedIn(true);
+
+      }
+    }
+
+    checkAuthStatus();
+
+    }, []);
+
 
   return (
 <div className="min-h-screen flex flex-col">
@@ -15,6 +42,29 @@ export default function Home() {
     <nav>
       </nav>
   </header>
+
+    {isLoggedIn  ? (
+        <main className="flex-grow flex flex-col items-center justify-center p-8 text-center">
+          <h1 className="text-4xl font-bold mb-4">Hello</h1>
+        <p className='pb-5'>Hello, {userEmail}! You are logged in.</p>
+
+        <a href="/protected" className='pb-3'>
+          <button 
+            className="bg-purple-600 hover:bg-purple-950 text-white py-2 px-2 rounded-lg shadow-lg transition duration-300 ease-in-out">
+            view protected page
+          </button>
+        </a>
+
+        <a href="/products" className='pb-3'>
+          <button 
+            className="bg-purple-600 hover:bg-purple-950 text-white py-2 px-2 rounded-lg shadow-lg transition duration-300 ease-in-out">
+            view products
+          </button>
+        </a>
+
+      <LogoutButton />
+        </main>
+      ) : (
 
   <main className="flex-grow flex flex-col items-center justify-center p-8 text-center">
     <h1 className="text-4xl font-bold mb-4">Hello</h1>
@@ -42,11 +92,19 @@ export default function Home() {
       </button>
     </a>
 
+    
+    <a href="/products" className='pb-3'>
+      <button 
+        className="bg-purple-600 hover:bg-purple-950 text-white py-2 px-2 rounded-lg shadow-lg transition duration-300 ease-in-out">
+        view products
+      </button>
+    </a>
+
 
     </div>
-
-
   </main>
+
+    )}
 
   <footer className="bg-gray-200 text-gray-600 p-4 text-center text-sm">
   yay
