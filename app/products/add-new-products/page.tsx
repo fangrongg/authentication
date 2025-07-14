@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+
 
 const supabase = createClient();
 
@@ -139,11 +139,9 @@ export default function AddNewProducts() {
 
         </form>
 
-        {/* Update/Reset Password Button (kept in main content as a profile action) */}
-        {/* Note: The "Reset Password" in the navbar is for general access, this one is specific to "Update" */}
         <div className='pt-2'>
           <Link href='/products' passHref>
-            {/* Assuming Button component accepts className for styling */}
+
             <Button className="bg-purple-500 hover:bg-purple-600 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out">
               back to products
             </Button>

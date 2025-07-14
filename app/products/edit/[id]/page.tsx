@@ -1,8 +1,6 @@
 
 
-import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/server'
-import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button';
 
 

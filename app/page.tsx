@@ -1,8 +1,7 @@
 
 'use client';
 
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+
 import { createClient } from '@/lib/client'
 import { useState, useEffect } from 'react';
 import { LogoutButton } from "@/components/logout-button";
