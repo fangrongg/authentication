@@ -21,6 +21,10 @@ export default function Page() {
                 You&apos;ve successfully signed up. Please check your email to confirm your account
                 before signing in.
               </p>
+              <a href="/auth/login">
+                <p className='pt-2 underline'>Back to Login</p>
+              </a>
+
             </CardContent>
           </Card>
         </div>

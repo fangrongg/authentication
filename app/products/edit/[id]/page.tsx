@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/server'
 import { LogoutButton } from '@/components/logout-button';
+import { redirect } from 'next/navigation';
 
 
 export default async function EditProduct({ params }: { params: { id: string } }) {
@@ -46,6 +47,7 @@ export default async function EditProduct({ params }: { params: { id: string } }
       console.error('Error updating product:', updateError);
 
     }
+    redirect(`/products`);
 
 
 

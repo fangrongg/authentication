@@ -71,20 +71,36 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       return
     }
 
-    try {
-      const { error } = await supabase.auth.signUp({
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email.toLowerCase())
+      
+    if (user && user.length > 0) {
+      setError('Email already exists')
+      setIsLoading(false)
+      return
+    } else {
+
+      try {
+        const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
         },
-      })
-      if (error) throw error
-      router.push('/auth/sign-up-success')
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'An error occurred')
-    } finally {
-      setIsLoading(false)
+        });
+        if (error) {
+          setError(error.message)
+          setIsLoading(false)
+          return
+        };
+        router.push('/auth/sign-up-success');
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : 'An error occurred');
+      } finally {
+        setIsLoading(false);
+      }
     }
   }
 
