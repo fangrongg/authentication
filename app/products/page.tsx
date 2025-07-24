@@ -3,15 +3,11 @@
 import Image from "next/image";
 import { createClient } from '@/lib/client'
 import { useState, useEffect } from 'react';
-import { LogoutButton } from "@/components/logout-button"; // Assuming this path is correct
-import { PlusIcon, Sparkle, Sparkles, UserRound } from "lucide-react";
-import Footer from "@/components/footer"; // Assuming this path is correct
-import Navbar from "@/components/navbar"; // Assuming this path is correct
+import { Sparkles } from "lucide-react";
 import { toast } from 'sonner';
 
 const supabase = createClient();
 
-// Updated Product type to include tags
 type Product = {
   id: string;
   product_name: string;
@@ -19,7 +15,7 @@ type Product = {
   description: string;
   availability: string;
   image?: string;
-  tags?: string; // Add tags property
+  tags?: string;
 };
 
 export default function Home() {
@@ -43,22 +39,20 @@ export default function Home() {
     const fetchProducts = async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*'); // Ensure 'tags' column is selected
+        .select('*'); 
 
       if (error) {
         console.error('Error fetching products:', error);
       } else {
-        setProducts(data || []); // Ensure data is an array
+        setProducts(data || []); 
       }
     }
     fetchProducts();
   }, []);
 
   const handleDelete = async (id: string) => {
-    // This handleDelete is currently for 'wishlist', but the request was to delete a 'product'
-    // Ensure you are targeting the correct table ('products' if you want to delete a product)
     const { error } = await supabase
-      .from('products') // Changed from 'wishlist' to 'products' to match user's likely intent for a "Delete" button on a product card
+      .from('products')
       .delete()
       .eq('id', id);
 
@@ -75,7 +69,7 @@ export default function Home() {
   const addToWishlist = async (product: Product) => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (userError || !userData?.user) { // Check if user is logged in
+    if (userError || !userData?.user) {
       console.error('Error fetching user or user not logged in:', userError);
       toast.info('Please login to add items to your wishlist.', { position: 'top-center' });
       return;

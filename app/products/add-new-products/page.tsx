@@ -1,27 +1,21 @@
 "use client"
 
 import { redirect } from 'next/navigation'
-import { LogoutButton } from '@/components/logout-button' // Make sure this path is correct
-import { createClient } from '@/lib/client' // Make sure this path is correct
-import { Button } from '@/components/ui/button' // Make sure this path is correct
-import Image from 'next/image'
+import { createClient } from '@/lib/client' 
+import { Button } from '@/components/ui/button' 
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react' // Import useEffect and useState
-import Navbar from '@/components/navbar' // Make sure this path is correct
-import Footer from '@/components/footer' // Make sure this path is correct
-import { toast } from 'sonner' // Import toast for notifications
-
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner' 
 const supabase = createClient();
 
-// Define a type for your categories fetched from Supabase
 type Category = {
-  id: string; // Assuming 'id' is a string or number based on your Supabase table
+  id: string; 
   name: string;
-  icon: string; // If you also fetch the icon, though not used for selection here
+  icon: string; 
 };
 
-// Updated CrochetFormData to include 'imageFile' for file uploads
+
 type CrochetFormData = {
   productName: string;
   price: number;
@@ -39,11 +33,11 @@ export default function AddNewProducts() {
   const {
     register,
     handleSubmit,
-    reset, // Added reset function to clear the form
+    reset, 
     formState: { errors },
   } = useForm<CrochetFormData>()
 
-  // Fetch categories when the component mounts
+
   useEffect(() => {
     const fetchCategories = async () => {
       const { data, error } = await supabase
@@ -57,18 +51,17 @@ export default function AddNewProducts() {
           (data || []).map((cat) => ({
             id: cat.id,
             name: cat.name,
-            icon: cat.icon ?? '', // Provide a fallback if icon is missing
+            icon: cat.icon ?? '', 
           }))
         );
       }
     };
 
     fetchCategories();
-  }, []); // Empty dependency array means this runs once on mount
-
+  }, []); 
   const onSubmit = async (data: CrochetFormData) => {
-    setUploading(true); // Start uploading
-    let imageUrl: string | null = null; // Variable to store the final image URL
+    setUploading(true); 
+    let imageUrl: string | null = null; 
 
     try {
 
@@ -79,21 +72,20 @@ export default function AddNewProducts() {
         const filePath = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExtension}`;
         const bucketName = 'product-image'; 
 
-        const { data: uploadData, error: uploadError } = await supabase.storage
+        const { error: uploadError } = await supabase.storage
           .from(bucketName)
           .upload(filePath, file, {
-            cacheControl: '3600', // Cache for an hour
-            upsert: false, // Do not overwrite if file exists with the same name
+            cacheControl: '3600', 
+            upsert: false, 
           });
 
         if (uploadError) {
           console.error('Supabase image upload error:', uploadError.message);
           toast.error(`Failed to upload image: ${uploadError.message}`);
           setUploading(false);
-          return; // Stop execution if upload fails
+          return;
         }
 
-        // Get the public URL of the uploaded image
         const { data: publicUrlData } = supabase.storage
           .from(bucketName)
           .getPublicUrl(filePath);
@@ -101,16 +93,14 @@ export default function AddNewProducts() {
         imageUrl = publicUrlData.publicUrl;
         toast.success('Image uploaded successfully!');
       }
-      // --- End Image Upload Logic ---
 
-      // Combine selected categories with manually entered tags
       let finalTags = data.tags;
       if (data.categories && data.categories.length > 0) {
-        const selectedCategoryNames = data.categories.join(', '); // Join selected names
+        const selectedCategoryNames = data.categories.join(', '); 
         if (finalTags) {
-          finalTags = `${finalTags}, ${selectedCategoryNames}`; // Append to existing tags
+          finalTags = `${finalTags}, ${selectedCategoryNames}`; 
         } else {
-          finalTags = selectedCategoryNames; // Use only selected categories if no manual tags
+          finalTags = selectedCategoryNames; 
         }
       }
 

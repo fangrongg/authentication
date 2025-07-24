@@ -1,14 +1,8 @@
 "use client"
 
-import { redirect } from 'next/navigation'
-import { LogoutButton } from '@/components/logout-button'
 import { createClient } from '@/lib/client'
-import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
 import { useEffect, useState, SVGProps } from 'react'
 import { toast } from 'sonner'
 
@@ -31,9 +25,8 @@ const DynamicLucideIcon: React.FC<DynamicLucideIconProps> = ({ iconName, ...prop
       import(`lucide-react`)
         .then((module) => {
           const PascalCaseIconName = iconName.charAt(0).toUpperCase() + iconName.slice(1);
-          // @ts-ignore
           if (module[PascalCaseIconName]) {
-            // @ts-ignore
+            // @ts-expect-error
             setIconComponent(() => module[PascalCaseIconName]);
           } else {
             console.warn(`Lucide icon "${iconName}" not found.`);

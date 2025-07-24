@@ -71,7 +71,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       return
     }
 
-    const { data: user, error } = await supabase
+    const { data: user } = await supabase
       .from('users')
       .select('*')
       .eq('email', email.toLowerCase())

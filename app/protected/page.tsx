@@ -1,12 +1,9 @@
 import { redirect } from 'next/navigation'
 
-import { LogoutButton } from '@/components/logout-button'
 import { createClient } from '@/lib/server'
-import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+
 import Link from 'next/link'
-import { Sparkles } from 'lucide-react'
-import Navbar from '@/components/navbar'
+import Image from 'next/image'
 
 
 export default async function ProtectedPage() {
@@ -25,7 +22,7 @@ export default async function ProtectedPage() {
 
   <main className="flex-grow flex flex-col items-center justify-center p-8 text-center z-10">
     <div className="mb-10 w-48 h-48 rounded-full overflow-hidden border border-rose-100">
-      <img
+      <Image
         src="/hehe.jpg"
         alt="Profile"
         className="w-full h-full object-cover"

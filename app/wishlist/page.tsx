@@ -4,6 +4,7 @@
 import Navbar from "@/components/navbar";
 import { createClient } from "@/lib/client";
 import { Send } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 
@@ -12,10 +13,24 @@ import { useEffect, useState } from "react";
 const supabase = createClient();
 
 
-export default function WishlistPage() {
-    const [wishlist, setWishlist] = useState<any[]>([]); //need to state <any[]>([]) so when you set wishlist it knows what to expect
+type Product = {
+    id: string;
+    product_name: string;
+    price: number;
+    availability: string;
+    image?: string;
+};
 
-    const [product, setProduct] = useState<any[]>([]); 
+type WishlistItem = {
+    product_id: string;
+    user_id: string;
+    // add other fields if needed
+};
+
+export default function WishlistPage() {
+    const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+
+    const [product, setProduct] = useState<Product[]>([]);
 
     // check wishlist for user id and product id
     // get the product id that is same in wishlist and display the item
@@ -87,7 +102,7 @@ export default function WishlistPage() {
                                 return isWished ? (
                                     <div key={item.id} className="flex bg-white shadow-md rounded-lg items-center p-6 mb-6 w-max">
 
-                                    <img src={item.image || '/default-image.jpg'} alt={item.product_name} className="w-24 h-24 object-cover rounded-md mr-4" />    
+                                    <Image src={item.image || '/default-image.jpg'} alt={item.product_name} className="w-24 h-24 object-cover rounded-md mr-4" />    
 
                                     <div>
                                     <h2 className="text-lg font-semibold text-gray-800 pr-4">{item.product_name}</h2>

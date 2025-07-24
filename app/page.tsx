@@ -3,14 +3,14 @@
 
 
 import { createClient } from '@/lib/client'
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { LogoutButton } from "@/components/logout-button";
-import Footer from '@/components/footer';
+
 
 export default function Home() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  // const [userEmail, setUserEmail] = useState<string | null>(null);
 
 
    useEffect(() => {
@@ -23,10 +23,10 @@ export default function Home() {
     // const isLoggedIn = !!data?.user;
       if (error || !data?.user) {
         setIsLoggedIn(false);
-        setUserEmail(null);
+        // setUserEmail(null);
       } else {
         setIsLoggedIn(true);
-        setUserEmail(data?.user?.email ?? null);
+        // setUserEmail(data?.user?.email ?? null);
       }
     }
 
@@ -48,10 +48,12 @@ export default function Home() {
     </div>
     
     <div className="mb-10 w-48 h-48 rounded-full overflow-hidden border border-rose-100">
-      <img
+      <Image
         src="/hehe.jpg"
         alt="Yaocrochets Logo"
         className="w-full h-full object-cover"
+        width={192}
+        height={192}
       />
     </div>
 
