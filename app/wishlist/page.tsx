@@ -3,6 +3,7 @@
 "use client";
 import Navbar from "@/components/navbar";
 import { createClient } from "@/lib/client";
+import { Send } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
@@ -80,20 +81,25 @@ export default function WishlistPage() {
             <div className='p-10 items-center justify-center'>
 
             <h1 className="pb-6 p-6 items-center font-bold text-2xl text-purple-600">Your Wishlist</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="flex-2 gap-6">
                             {product.map((item) => {
                                 const isWished = wishlist.some((wish) => wish.product_id === item.id);
                                 return isWished ? (
                                     <div key={item.id} className="flex bg-white shadow-md rounded-lg items-center p-6 mb-6 w-max">
 
                                     <img src={item.image || '/default-image.jpg'} alt={item.product_name} className="w-24 h-24 object-cover rounded-md mr-4" />    
+
+                                    <div>
                                     <h2 className="text-lg font-semibold text-gray-800 pr-4">{item.product_name}</h2>
 
-                                    <p className="text-gray-700 pr-4">Price: <span className="font-bold">${item.price}</span></p>
+                                        <p className="text-gray-700 pr-4">Price: <span className="font-bold">${item.price}</span></p>
 
-                                    <p className="text-gray-600 text-sm pr-4">Availability: <span className="font-medium">{item.availability}</span></p>
+                                        <p className="text-gray-600 text-sm pr-4">Availability: <span className="font-medium">{item.availability}</span></p>
 
-                                    <p className="text-red-600 text-sm pr-4 cursor-pointer hover:underline" onClick={() => removeFromWishlist(item.id)}>remove from wishlist</p>
+                                        <p className="text-red-600 text-sm pr-4 cursor-pointer hover:underline" onClick={() => removeFromWishlist(item.id)}>remove from wishlist</p>
+                                    </div>
+                                    
+ 
                                     </div>
                                 ) : null;
                                 })}
@@ -106,7 +112,7 @@ export default function WishlistPage() {
                                     <p className="text-white bg-blue-500 pb-2 p-2 rounded w-max">Back to Products</p>
                                 </a>
                                 <a href="https://t.me/yaocrochets">
-                                    <p className="text-white bg-purple-500 p-2 rounded w-max">Order Now! (Telegram)</p>
+                                    <p className="text-white bg-blue-500 p-2 rounded w-max">Order Now!<Send className='inline-block ml-1 w-5 h-5' /></p>
                                 </a>
                             
                         </div>

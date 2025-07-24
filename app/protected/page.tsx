@@ -5,6 +5,8 @@ import { createClient } from '@/lib/server'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Sparkles } from 'lucide-react'
+import Navbar from '@/components/navbar'
 
 
 export default async function ProtectedPage() {
@@ -16,64 +18,68 @@ export default async function ProtectedPage() {
             }
 
   return (
-      <div className="min-h-screen flex flex-col bg-gray-100 text-gray-700">
-      {/* Navbar */}
-      <nav className="bg-gray-900 text-white p-4 flex flex-wrap justify-between items-center shadow-lg rounded-b-lg">
-        {/* Brand/Home link */}
-        <Link href="/" className="text-2xl font-bold text-gray-200 no-underline mr-6 px-3 py-2 rounded-md hover:bg-gray-700 transition-colors duration-300">
-          navbar
-        </Link>
+      <div className="min-h-screen flex flex-col bg-white relative">
+  <div className="absolute top-20 left-8 text-rose-200 text-xl opacity-80">✿</div>
+  <div className="absolute bottom-1/3 right-10 text-rose-300 text-lg">✿</div>
+  <div className="absolute top-1/4 right-20 text-rose-100 text-2xl">✿</div>
 
-        <ul className="list-none m-0 p-0 flex flex-wrap gap-4 items-center md:flex-row flex-col w-full md:w-auto">
-          <li>
-            {/* Home Button */}
-            <Link href="/" className="bg-green-600 hover:bg-green-700 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out inline-flex items-center justify-center w-full md:w-auto">
-              Home
-            </Link>
-          </li>
-          <li>
-            {/* Reset Password Button */}
-            <Link href="/auth/update-password" className="bg-blue-600 hover:bg-blue-700 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out inline-flex items-center justify-center w-full md:w-auto">
-              Reset Password
-            </Link>
-          </li>
-          <li>
-            {/* Sign Out Button (assuming LogoutButton handles the actual logout logic) */}
-            <LogoutButton />
-          </li>
-        </ul>
-      </nav>
-
-      {/* Main Content Area */}
-      <main className="flex-grow flex flex-col justify-center items-center max-w-4xl w-full mx-auto my-8 p-8 bg-white rounded-2xl shadow-xl text-center">
-        {/* Thumbs-up icon */}
-        <div className="mb-6">
-          <Image
-            src="/thumbs-up-icon.jpg" // Ensure this path is correct relative to your public folder
-            alt="Thumbs up icon"
-            width={250}
-            height={250}
-            className="rounded-lg shadow-md"
-          />
-        </div>
-
-        {/* Welcome message */}
-        <p className="text-xl font-medium text-gray-800 mb-6">
-          Successfully logged in as <span className='text-purple-600 font-bold'>{data.user.email}</span>
-        </p>
-
-        {/* Update/Reset Password Button (kept in main content as a profile action) */}
-        {/* Note: The "Reset Password" in the navbar is for general access, this one is specific to "Update" */}
-        <div className='pt-2'>
-          <Link href='/auth/update-password' passHref>
-            {/* Assuming Button component accepts className for styling */}
-            <Button className="bg-purple-500 hover:bg-purple-600 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out">
-              Update/Reset Password
-            </Button>
-          </Link>
-        </div>
-      </main>
+  <main className="flex-grow flex flex-col items-center justify-center p-8 text-center z-10">
+    <div className="mb-10 w-48 h-48 rounded-full overflow-hidden border border-rose-100">
+      <img
+        src="/hehe.jpg"
+        alt="Profile"
+        className="w-full h-full object-cover"
+      />
     </div>
+
+    <div className="mb-8">
+      <p className="text-rose-400 text-sm">welcome back {data.user.email}!</p>
+    </div>
+
+    <div className="flex flex-col gap-3 w-full max-w-xs">
+      <a href="/auth/update-password">
+        <button className="w-full bg-gradient-to-r from-pink-600 to-rose-700 text-white font-light py-3 px-6 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
+          Update Password
+        </button>
+      </a>
+
+      <Link href="/auth/logout">
+        <button className="w-full bg-white text-rose-400 font-light py-3 px-6 rounded-full border border-rose-200 text-sm tracking-wider hover:bg-rose-50 transition-all">
+          Log Out
+        </button>
+      </Link>
+    </div>
+
+
+    <div className="mt-12 w-20 border-t border-red-100"></div>
+  </main>
+
+  <footer className="bg-gradient-to-b from-white to-rose-200 py-6">
+    <div className="container mx-auto px-4 text-center">
+      <p className="text-red-300 text-xxs mb-4 tracking-widest">EACH PIECE HANDMADE</p>
+      <div className="flex justify-center space-x-6">
+        <a href="https://www.instagram.com/yaocrochets" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
+          instagram
+        </a>
+        <a href="https://t.me/yaocrochets" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
+          telegram
+        </a>
+        <a href="https://www.carousell.sg/yaocrochets" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
+          carousell
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
   )
 }
 
