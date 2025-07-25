@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { z } from 'zod'
+import { toast } from 'sonner'
 
 const passwordSchema = z.string()
 .min(8, {
@@ -58,6 +59,7 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
     } finally {
       setIsLoading(false)
     }
+    toast.success('Password updated successfully!')
   }
 
   return (

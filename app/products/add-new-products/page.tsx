@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner' 
+import { toast, Toaster } from 'sonner' 
 const supabase = createClient();
 
 type Category = {
@@ -91,7 +91,7 @@ export default function AddNewProducts() {
           .getPublicUrl(filePath);
 
         imageUrl = publicUrlData.publicUrl;
-        toast.success('Image uploaded successfully!');
+        // toast.success('Image uploaded successfully!');
       }
 
       let finalTags = data.tags;
@@ -141,7 +141,6 @@ export default function AddNewProducts() {
       toast.success('Product added successfully!');
       reset(); 
       setUploading(false);
-      redirect('/products'); 
     } catch (error: any) {
       console.error('Catch block: Error during product submission:', error);
       toast.error('An unexpected error occurred. Please try again.');
@@ -237,8 +236,7 @@ export default function AddNewProducts() {
 
         <div className='pt-2'>
           <Link href='/products' passHref>
-            <Button className="bg-rose-700 hover:bg-rose-8is good
-            00 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out">
+            <Button className="bg-rose-700 hover:bg-rose-800 active:translate-y-px text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out">
               back to products
             </Button>
           </Link>

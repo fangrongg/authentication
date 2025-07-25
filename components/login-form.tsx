@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -42,6 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     } finally {
       setIsLoading(false)
     }
+    toast.success('Logged in successfully!')
   }
 
   return (

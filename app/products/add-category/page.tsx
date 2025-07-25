@@ -138,10 +138,12 @@ export default function AddCategory() {
           <div className="bg-white p-8 rounded-lg border border-rose-50">
             <h2 className="text-2xl text-gray-800 font-bold mb-6 relative pb-2">
               Existing Categories
+
               <span className="absolute bottom-0 left-0 w-20 border-t border-rose-100"></span>
             </h2>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 pb-2 gap-4">
               {categories.map((category) => (
                 <div 
                   key={category.id} 
@@ -159,9 +161,12 @@ export default function AddCategory() {
                 </div>
               ))}
             </div>
+            <Link href="https://lucide.dev/icons/" className="text-sm text-rose-400 hover:underline">
+              Browse Lucide Icons
+            </Link>
+
           </div>
 
-          {/* Back Button */}
           <div className="mt-8 text-center">
             <Link href='/products'>
               <button className="bg-white text-rose-400 font-light py-3 px-6 rounded-full border border-rose-200 text-sm tracking-wider hover:bg-rose-50 transition-all">

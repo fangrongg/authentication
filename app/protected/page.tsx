@@ -4,6 +4,7 @@ import { createClient } from '@/lib/server'
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { LogoutButton } from '@/components/logout-button'
 
 
 export default async function ProtectedPage() {
@@ -26,6 +27,8 @@ export default async function ProtectedPage() {
         src="/hehe.jpg"
         alt="Profile"
         className="w-full h-full object-cover"
+        width={192}
+        height={192}
       />
     </div>
 
@@ -40,11 +43,7 @@ export default async function ProtectedPage() {
         </button>
       </a>
 
-      <Link href="/auth/logout">
-        <button className="w-full bg-white text-rose-400 font-light py-3 px-6 rounded-full border border-rose-200 text-sm tracking-wider hover:bg-rose-50 transition-all">
-          Log Out
-        </button>
-      </Link>
+      <LogoutButton />
     </div>
 
 
