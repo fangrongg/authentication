@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
+// Import useParams
+import { useParams } from 'next/navigation';
 
 const supabase = createClient();
 
@@ -19,14 +21,19 @@ type Product = {
   tags?: string;
 };
 
-// Define the correct type for props when using 'use client'
-type ProductDetailPageProps = {
-  params: {
-    id: string;
-  };
-};
+// Remove ProductDetailPageProps as params will be accessed via hook
+// type ProductDetailPageProps = {
+//   params: {
+//     id: string;
+//   };
+// };
 
-export default function ProductDetail({ params }: ProductDetailPageProps) {
+// Modify the component signature: remove params from props
+export default function ProductDetail() {
+  // Use the useParams hook to get the id
+  const params = useParams();
+  const productId = params.id as string; // Assert as string, as dynamic routes are strings
+
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -36,7 +43,7 @@ export default function ProductDetail({ params }: ProductDetailPageProps) {
       const { data, error: fetchError } = await supabase
         .from('products')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', productId) // Use productId from the hook
         .single();
 
       if (fetchError) {
@@ -54,7 +61,7 @@ export default function ProductDetail({ params }: ProductDetailPageProps) {
 
     fetchProduct();
     checkAuth();
-  }, [params.id]);
+  }, [productId]); // Depend on productId
 
   const addToWishlist = async () => {
     if (!isLoggedIn) {
@@ -68,7 +75,7 @@ export default function ProductDetail({ params }: ProductDetailPageProps) {
       const { error } = await supabase
         .from('wishlist')
         .insert({
-          product_id: params.id,
+          product_id: productId, // Use productId from the hook
           user_id: user?.id
         });
 
