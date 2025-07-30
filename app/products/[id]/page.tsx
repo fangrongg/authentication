@@ -19,7 +19,11 @@ type Product = {
   tags?: string;
 };
 
-export default function ProductDetail({ params }: { params: { id: string } }) {
+interface ProductDetailPageProps {
+  params: { id: string };
+}
+
+export default function ProductDetail({ params }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
