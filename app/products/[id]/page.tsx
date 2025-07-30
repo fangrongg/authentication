@@ -47,7 +47,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
     fetchProduct();
     checkAuth();
-  }, [params.id, supabase]);
+  }, [params.id]);
 
   const addToWishlist = async () => {
     if (!isLoggedIn) {
@@ -68,7 +68,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       if (error) throw error;
 
       toast.success('Added to wishlist!');
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {

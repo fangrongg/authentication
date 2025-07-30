@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 type Category = {
   id: string;
@@ -38,7 +39,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
     availability: string;
     tags?: string;
     image?: string;
-    [key: string]: any; // Add other fields if needed
+    // Add other fields here if needed, with explicit types
   };
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -86,7 +87,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
     };
 
     fetchData();
-  }, [productId, setValue]);
+  }, [productId, setValue, supabase]);
 
   const onSubmit = async (data: ProductFormData) => {
     setUploading(true);
@@ -235,10 +236,12 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             {currentImageUrl && (
               <div className="mb-2">
                 <p className="text-sm text-gray-500 mb-1">Current Image:</p>
-                <img 
+                <Image
                   src={currentImageUrl} 
                   alt="Current product" 
                   className="w-32 h-32 object-cover rounded-md mx-auto"
+                  width={128}
+                  height={128}
                 />
               </div>
             )}
