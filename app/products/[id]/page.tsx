@@ -68,8 +68,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       if (error) throw error;
 
       toast.success('Added to wishlist!');
-    } catch (error) {
-      toast.error('This item is already in your wishlist');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('This item is already in your wishlist');
+      }
     }
   };
 

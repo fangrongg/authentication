@@ -1,8 +1,6 @@
 
 'use client';
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/client";
 import {   ShoppingBag, Sparkles,  UserRound } from "lucide-react";
 import Link from "next/link";
 

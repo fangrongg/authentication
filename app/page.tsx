@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import Link from 'next/link';
 
 type Product = {
   id: string;
@@ -77,7 +78,7 @@ export default function Home() {
                     key={product.id} 
                     className="flex-[0_0_80%] sm:flex-[0_0_50%] md:flex-[0_0_40%] lg:flex-[0_0_30%] xl:flex-[0_0_22%] min-w-0 px-2 relative group"
                   >
-                    <a href={`/products/${product.id}`} className="block">
+                    <Link href={`/products/${product.id}`} className="block">
                       <div className="relative h-64 w-full rounded-lg overflow-hidden border-2 border-rose-100 shadow-sm mx-auto max-w-xs">
                         <Image
                           src={product.image || '/default-product.jpg'}
@@ -92,7 +93,7 @@ export default function Home() {
                           </h2>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>

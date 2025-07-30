@@ -63,40 +63,6 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    try {
-      // First delete from wishlist
-      const { error: wishlistError } = await supabase
-        .from('wishlist')
-        .delete()
-        .eq('product_id', id);
-
-      if (wishlistError) {
-        console.error('Error deleting from wishlist:', wishlistError);
-        toast.error('Failed to remove product from wishlists');
-        return;
-      }
-
-      // Then delete the product
-      const { error: productError } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', id);
-
-      if (productError) {
-        console.error('Error deleting product:', productError);
-        toast.error('Failed to delete product');
-        return;
-      }
-
-      // Update local state and show success
-      setProducts(prev => prev.filter(product => product.id !== id));
-      toast.success('Product deleted successfully!');
-    } catch (error) {
-      console.error('Error in deletion process:', error);
-      toast.error('An unexpected error occurred');
-    }
-  };
 
   const addToWishlist = async (product: Product) => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
