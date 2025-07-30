@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 
 type Category = {
   id: string;
@@ -26,8 +25,6 @@ type ProductFormData = {
   currentImage?: string;
 };
 
-// Remove the standalone PageProps type if you defined it.
-// Instead, type the props directly in the component signature.
 export default function EditProduct({ params }: { params: { id: string } }) {
   const supabase = createClient();
   const productId = params.id;
@@ -71,18 +68,17 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       if (productData) {
         setProduct(productData);
         setCurrentImageUrl(productData.image);
-
+        
         setValue('productName', productData.product_name);
         setValue('price', productData.price);
         setValue('description', productData.description);
         setValue('availability', productData.availability);
         setValue('tags', productData.tags || '');
-
-        // Ensure categoriesData is not null before using it
-        if (productData.tags && categoriesData) {
+        
+        if (productData.tags) {
           const tagList = productData.tags.split(',').map((tag: string) => tag.trim());
           const selectedCategories = categoriesData
-            .filter(cat => tagList.includes(cat.name))
+            ?.filter(cat => tagList.includes(cat.name))
             .map(cat => cat.name) || [];
           setValue('categories', selectedCategories);
         }
@@ -91,7 +87,6 @@ export default function EditProduct({ params }: { params: { id: string } }) {
 
     fetchData();
   }, [productId, setValue, supabase]);
-
 
   const onSubmit = async (data: ProductFormData) => {
     setUploading(true);
@@ -102,7 +97,6 @@ export default function EditProduct({ params }: { params: { id: string } }) {
         if (currentImageUrl) {
           const pathSegments = currentImageUrl.split('/');
           const fileName = pathSegments[pathSegments.length - 1];
-          // Assuming 'product-image' is the bucket name
           await supabase.storage.from('product-image').remove([fileName]);
         }
 
@@ -130,15 +124,11 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       if (data.categories && data.categories.length > 0) {
         const selectedCategoryNames = data.categories.join(', ');
         if (finalTags) {
-          // Avoid double commas if tags already ends with a comma or is empty
-          finalTags = `${finalTags.trim().endsWith(',') ? finalTags.trim() : finalTags.trim() + ','} ${selectedCategoryNames}`;
+          finalTags = `${finalTags}, ${selectedCategoryNames}`;
         } else {
           finalTags = selectedCategoryNames;
         }
       }
-      // Trim leading/trailing commas and spaces, and remove duplicate commas
-      finalTags = finalTags ? finalTags.split(',').map(tag => tag.trim()).filter(tag => tag).join(', ') : '';
-
 
       const { error: updateError } = await supabase
         .from('products')
@@ -245,12 +235,10 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             {currentImageUrl && (
               <div className="mb-2">
                 <p className="text-sm text-gray-500 mb-1">Current Image:</p>
-                <Image
-                  src={currentImageUrl}
-                  alt="Current product"
+                <img 
+                  src={currentImageUrl} 
+                  alt="Current product" 
                   className="w-32 h-32 object-cover rounded-md mx-auto"
-                  width={128}
-                  height={128}
                 />
               </div>
             )}
@@ -259,8 +247,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
               id="imageUpload"
               {...register("imageFile")}
               className='w-full p-2 border border-rose-200 rounded-lg file:mr-4 file:py-2 file:px-4
-                               file:rounded-full file:border-0 file:text-sm file:font-semibold
-                               file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100'
+                         file:rounded-full file:border-0 file:text-sm file:font-semibold
+                         file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100'
               accept="image/*"
             />
           </div>
@@ -287,20 +275,20 @@ export default function EditProduct({ params }: { params: { id: string } }) {
         <div className="container mx-auto px-4 text-center">
           <p className="text-red-300 text-xxs mb-4 tracking-widest">EACH PIECE HANDMADE</p>
           <div className="flex justify-center space-x-6">
-            <a href="https://www.instagram.com/yaocrochets"
-              target="_blank"
+            <a href="https://www.instagram.com/yaocrochets" 
+              target="_blank" 
               rel="noopener noreferrer"
               className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
               instagram
             </a>
-            <a href="https://t.me/yaocrochets"
-              target="_blank"
+            <a href="https://t.me/yaocrochets" 
+              target="_blank" 
               rel="noopener noreferrer"
               className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
               telegram
             </a>
-            <a href="https://www.carousell.sg/yaocrochets"
-              target="_blank"
+            <a href="https://www.carousell.sg/yaocrochets" 
+              target="_blank" 
               rel="noopener noreferrer"
               className="text-rose-800 hover:text-red-500 text-xxs tracking-widest transition-colors">
               carousell
