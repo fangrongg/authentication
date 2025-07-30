@@ -1,12 +1,10 @@
 "use client"
-
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/client' 
 import { Button } from '@/components/ui/button' 
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { toast, Toaster } from 'sonner' 
+import { toast } from 'sonner' 
 const supabase = createClient();
 
 type Category = {
@@ -141,7 +139,7 @@ export default function AddNewProducts() {
       toast.success('Product added successfully!');
       reset(); 
       setUploading(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Catch block: Error during product submission:', error);
       toast.error('An unexpected error occurred. Please try again.');
       setUploading(false);

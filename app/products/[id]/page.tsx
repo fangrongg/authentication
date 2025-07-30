@@ -26,14 +26,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data, error } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('products')
         .select('*')
         .eq('id', params.id)
         .single();
 
-      if (error) {
-        console.error('Error fetching product:', error);
+      if (fetchError) {
+        console.error('Error fetching product:', fetchError);
       } else {
         setProduct(data);
       }

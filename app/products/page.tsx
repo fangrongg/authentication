@@ -183,16 +183,16 @@ export default function Home() {
               </h1>
               
               <div className="flex items-center space-x-2">
-                <a href="/products/add-new-products">
+                <Link href="/products/add-new-products">
                   <button className="bg-gradient-to-r border border-rose-600 text-rose-600 hover:bg-rose-100 font-light py-2 px-4 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
                     Add New Product
                   </button>
-                </a>
-                <a href="/products/add-category">
+                </Link>
+                <Link href="/products/add-category">
                   <button className="bg-gradient-to-r border border-rose-600 text-rose-600 hover:bg-rose-100 font-light py-2 px-4 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
                     Add Category
                   </button>
-                </a>
+                </Link>
                 <button 
                   onClick={() => setShowFilter(!showFilter)}
                   className="flex items-center bg-gradient-to-r border border-rose-600 text-rose-600 hover:bg-rose-100 font-light py-2 px-4 rounded-full text-sm tracking-wider hover:shadow-sm transition-all"
@@ -303,10 +303,10 @@ export default function Home() {
                     <div className="flex justify-between items-start mb-1">
                       <h2 className="text-sm font-semibold text-gray-800 break-words pr-2">{product.product_name}</h2> 
                       <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium flex-shrink-0 ${
-                        product.availability === 'In Stock'
-                          ? 'bg-rose-100 text-rose-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                  product.availability === 'In Stock' || product.availability === 'Made To Order'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-rose-100 text-rose-800'
+                }`}>
                         {product.availability}
                       </span>
                     </div>
@@ -315,7 +315,9 @@ export default function Home() {
                     <p className="text-gray-600 text-xs mb-2 h-10 overflow-hidden text-ellipsis line-clamp-3">
                       {product.description}
                     </p>
+                      <div className="flex justify-between pt-2 border-t border-rose-50 mt-auto z-20">
 
+                      </div>
                     {product.tags && product.tags.split(',').filter(tag => tag.trim() !== '').length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-auto mb-2">
                         {product.tags.split(',').map((tag, index) => (
@@ -328,10 +330,7 @@ export default function Home() {
                         ))}
                       </div>
                     )}
-
-                    {isLoggedIn && (
-                      <div className="flex justify-between pt-2 border-t border-rose-50 mt-auto z-20">
-                        <a
+                        {/* <a
                           href={`/products/edit/${product.id}`}
                           onClick={(e) => e.stopPropagation()}
                           className="text-rose-400 hover:text-rose-600 text-xs transition-colors relative z-30"
@@ -347,9 +346,7 @@ export default function Home() {
                           className="text-rose-300 hover:text-rose-500 text-xs transition-colors relative z-30"
                         >
                           Delete
-                        </button>
-                      </div>
-                    )}
+                        </button> */}
                   </div>
                 </div>
               ))}
@@ -409,8 +406,7 @@ export default function Home() {
                   <div className="p-4 flex flex-col flex-grow relative z-20">
                     <div className="flex justify-between items-start mb-1">
                       <h2 className="text-sm font-semibold text-gray-800 break-words pr-2">{product.product_name}</h2>
-                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium flex-shrink-0 
-                      ${
+                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium flex-shrink-0 ${
                   product.availability === 'In Stock' || product.availability === 'Made To Order'
                     ? 'bg-green-100 text-green-800'
                     : 'bg-rose-100 text-rose-800'

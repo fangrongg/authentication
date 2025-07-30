@@ -2,6 +2,7 @@
 import { createClient } from "@/lib/client";
 import { Send, Trash2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const supabase = createClient();
@@ -27,7 +28,7 @@ export default function WishlistPage() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { user }, error } = await supabase.auth.getUser();
+            const { data: { user } } = await supabase.auth.getUser();
             setIsLoggedIn(!!user);
             setLoading(false);
         };
@@ -104,18 +105,18 @@ export default function WishlistPage() {
                         <h1 className="text-4xl text-gray-800 mb-4 font-bold">Your Wishlist</h1>
                         <p className="text-gray-600 mb-6">Login to view and manage your wishlist</p>
                         <div className="space-y-3">
-                            <a 
+                            <Link
                                 href="/auth/login"
                                 className="block bg-gradient-to-r from-rose-400 to-rose-500 text-white font-light py-3 px-6 rounded-full text-sm tracking-wider hover:shadow-sm transition-all"
                             >
                                 Sign In
-                            </a>
-                            <a 
+                            </Link>
+                            <Link 
                                 href="/products"
                                 className="block bg-white text-rose-400 font-light py-3 px-6 rounded-full border border-rose-200 text-sm tracking-wider hover:bg-rose-50 transition-all"
                             >
                                 Browse Products
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </main>
@@ -205,26 +206,26 @@ export default function WishlistPage() {
                     ) : (
                         <div className="flex flex-col items-center justify-center h-64 border border-rose-100 rounded-lg bg-rose-50">
                             <p className="text-gray-500 mb-4">Your wishlist is empty</p>
-                            <a 
+                            <Link
                                 href="/products"
                                 className="bg-gradient-to-r from-rose-400 to-rose-500 text-white font-light py-2 px-4 rounded-full text-sm tracking-wider hover:shadow-sm transition-all"
                             >
                                 Browse Products
-                            </a>
+                            </Link>
                         </div>
                     )}
 
                     <div className="flex justify-center space-x-4 mt-8">
-                        <a href="/products">
+                        <Link href="/products">
                             <button className="bg-gradient-to-r from-rose-400 to-rose-500 text-white font-light py-3 px-6 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
                                 Back to Products
                             </button>
-                        </a>
-                        <a href="https://t.me/yaocrochets">
+                        </Link>
+                        <Link href="https://t.me/yaocrochets">
                             <button className="bg-white text-blue-400 font-light py-3 px-6 rounded-full border border-blue-200 text-sm tracking-wider hover:bg-blue-50 transition-all flex items-center">
                                 Order Now <Send className="ml-1 w-4 h-4" />
                             </button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </main>

@@ -26,7 +26,7 @@ const DynamicLucideIcon: React.FC<DynamicLucideIconProps> = ({ iconName, ...prop
         .then((module) => {
           const PascalCaseIconName = iconName.charAt(0).toUpperCase() + iconName.slice(1);
           if (module[PascalCaseIconName]) {
-            // @ts-expect-error
+            // @ts-expect-error: Dynamic import of Lucide icons, type not inferred
             setIconComponent(() => module[PascalCaseIconName]);
           } else {
             console.warn(`Lucide icon "${iconName}" not found.`);
@@ -48,7 +48,7 @@ const DynamicLucideIcon: React.FC<DynamicLucideIconProps> = ({ iconName, ...prop
 };
 
 export default function AddCategory() {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Array<{ id: string | number; name: string; icon: string }>>([]);
   const {
     register,
     handleSubmit,
@@ -85,9 +85,14 @@ export default function AddCategory() {
       toast.success(`"${data.name}" category added successfully!`);
       setCategories(prev => [insertedData[0], ...prev]);
       reset();
-    } catch (error: any) {
-      console.error('Error inserting data:', error);
-      toast.error(`Failed to add category: ${error.message}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error inserting data:', error);
+        toast.error(`Failed to add category: ${error.message}`);
+      } else {
+        console.error('Unknown error inserting data:', error);
+        toast.error('Failed to add category: Unknown error');
+      }
     }
   }
 

@@ -30,7 +30,18 @@ export default function EditProduct({ params }: { params: { id: string } }) {
   const productId = params.id;
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [product, setProduct] = useState<any>(null);
+  type Product = {
+    id: string;
+    product_name: string;
+    price: number;
+    description: string;
+    availability: string;
+    tags?: string;
+    image?: string;
+    [key: string]: any; // Add other fields if needed
+  };
+
+  const [product, setProduct] = useState<Product | null>(null);
   const [uploading, setUploading] = useState(false);
   const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
 
@@ -136,9 +147,13 @@ export default function EditProduct({ params }: { params: { id: string } }) {
 
       toast.success('Product updated successfully!');
       router.push('/products');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error updating product:', error);
-      toast.error(`Failed to update product: ${error.message}`);
+      if (error instanceof Error) {
+        toast.error(`Failed to update product: ${error.message}`);
+      } else {
+        toast.error('Failed to update product: Unknown error');
+      }
     } finally {
       setUploading(false);
     }

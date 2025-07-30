@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/server'
 
-import Link from 'next/link'
+
 import Image from 'next/image'
 import { LogoutButton } from '@/components/logout-button'
 
