@@ -52,7 +52,7 @@ export default function Home() {
 
     checkAuthStatus();
     fetchFeaturedProducts();
-  }, []);
+  }, [selectedIds]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white relative">
@@ -103,11 +103,13 @@ export default function Home() {
       )}
 
         <div className="flex flex-col gap-3 w-full max-w-xs">
-          <a href="/products">
-            <button className="w-full hover:cursor-pointer bg-gradient-to-r from-rose-700 to-pink-600 text-white font-light py-3 px-6 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
-              View All Products
-            </button>
-          </a>
+          <Link href="/products" passHref legacyBehavior>
+            <a>
+              <button className="w-full hover:cursor-pointer bg-gradient-to-r from-rose-700 to-pink-600 text-white font-light py-3 px-6 rounded-full text-sm tracking-wider hover:shadow-sm transition-all">
+                View All Products
+              </button>
+            </a>
+          </Link>
 
           <a href={isLoggedIn ? "/protected" : "/auth/login"}>
             <button className="w-full bg-white text-rose-400 font-light py-3 px-6 rounded-full border border-rose-200 text-sm tracking-wider hover:bg-rose-50 transition-all">
