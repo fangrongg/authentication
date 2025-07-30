@@ -25,8 +25,13 @@ type ProductFormData = {
   categories: string[];
   currentImage?: string;
 };
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
 
-export default function EditProduct({ params }: { params: { id: string } }) {
+export default function EditProduct({ params }: PageProps) {
   const supabase = createClient();
   const productId = params.id;
   const router = useRouter();
