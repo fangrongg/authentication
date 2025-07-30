@@ -19,11 +19,8 @@ type Product = {
   tags?: string;
 };
 
-interface ProductDetailPageProps {
-  params: { id: string };
-}
-
-export default function ProductDetail({ params }: ProductDetailPageProps) {
+// Remove the custom interface and use the correct props signature for Next.js app router
+export default function ProductDetail({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
